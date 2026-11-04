@@ -9,6 +9,7 @@ import {
   ParseIntPipe,
   HttpCode,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -20,6 +21,7 @@ import { EventsService } from './events.service.js';
 import { CreateEventDto } from './dto/create-event.dto.js';
 import { UpdateEventDto } from './dto/update-event.dto.js';
 import { Event } from './entities/event.entity.js';
+import { AdminAuthGuard } from '../auth/admin-auth.guard.js';
 
 @ApiTags('Events')
 @Controller('events')
@@ -27,6 +29,7 @@ export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
 
   @Post()
+  @UseGuards(AdminAuthGuard)
   @ApiOperation({ summary: 'Créer un nouvel événement' })
   @ApiResponse({ status: 201, description: 'Événement créé avec succès.', type: Event })
   @ApiResponse({ status: 400, description: 'Données invalides.' })
@@ -51,6 +54,7 @@ export class EventsController {
   }
 
   @Put(':id')
+  @UseGuards(AdminAuthGuard)
   @ApiOperation({ summary: 'Mettre à jour un événement existant' })
   @ApiParam({ name: 'id', description: 'ID de l\'événement', type: Number })
   @ApiResponse({ status: 200, description: 'Événement mis à jour avec succès.', type: Event })
@@ -64,6 +68,7 @@ export class EventsController {
   }
 
   @Delete(':id')
+  @UseGuards(AdminAuthGuard)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Supprimer un événement' })
   @ApiParam({ name: 'id', description: 'ID de l\'événement', type: Number })
@@ -73,4 +78,3 @@ export class EventsController {
     return await this.eventsService.remove(id);
   }
 }
-

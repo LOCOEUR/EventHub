@@ -4,6 +4,7 @@ import { EventsModule } from './events/events.module.js';
 import { BookingsModule } from './bookings/bookings.module.js';
 import { Event } from './events/entities/event.entity.js';
 import { Booking } from './bookings/entities/booking.entity.js';
+import { AuthModule } from './auth/auth.module.js';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { Booking } from './bookings/entities/booking.entity.js';
     }),
     EventsModule,
     BookingsModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

@@ -215,14 +215,12 @@ export class AdminLoginComponent {
     if (this.loginForm.invalid) return;
 
     const { email, password } = this.loginForm.value;
-    const success = this.authService.login(email, password);
-
-    if (success) {
-      this.toastService.showSuccess('Connexion réussie à l\'espace gestion.');
-      this.router.navigate(['/admin']);
-    } else {
-      this.errorMessage.set('Identifiants incorrects. Veuillez réessayer.');
-    }
+    this.authService.login(email, password).subscribe({
+      next: () => {
+        this.toastService.showSuccess('Connexion réussie à l\'espace gestion.');
+        this.router.navigate(['/admin']);
+      },
+      error: () => this.errorMessage.set('Identifiants incorrects. Veuillez réessayer.'),
+    });
   }
 }
-

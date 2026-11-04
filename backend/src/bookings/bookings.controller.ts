@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   HttpCode,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -17,6 +18,7 @@ import {
 import { BookingsService } from './bookings.service.js';
 import { CreateBookingDto } from './dto/create-booking.dto.js';
 import { Booking } from './entities/booking.entity.js';
+import { AdminAuthGuard } from '../auth/admin-auth.guard.js';
 
 @ApiTags('Bookings')
 @Controller()
@@ -37,6 +39,7 @@ export class BookingsController {
   }
 
   @Get('events/:eventId/bookings')
+  @UseGuards(AdminAuthGuard)
   @ApiOperation({ summary: 'Lister les réservations d\'un événement' })
   @ApiParam({ name: 'eventId', description: 'ID de l\'événement', type: Number })
   @ApiResponse({ status: 200, description: 'Liste des réservations de l\'événement.', type: [Booking] })
@@ -58,6 +61,7 @@ export class BookingsController {
   }
 
   @Get('bookings/:id')
+  @UseGuards(AdminAuthGuard)
   @ApiOperation({ summary: 'Consulter les détails d\'une réservation' })
   @ApiParam({ name: 'id', description: 'ID UUID de la réservation', type: String })
   @ApiResponse({ status: 200, description: 'Détails de la réservation.', type: Booking })
@@ -66,4 +70,3 @@ export class BookingsController {
     return await this.bookingsService.findOne(id);
   }
 }
-

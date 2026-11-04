@@ -77,14 +77,12 @@ export class EventsService implements OnApplicationBootstrap {
   async findAll(): Promise<Event[]> {
     return await this.eventsRepository.find({
       order: { date: 'ASC' },
-      relations: { bookings: true },
     });
   }
 
   async findOne(id: number): Promise<Event> {
     const event = await this.eventsRepository.findOne({
       where: { id },
-      relations: { bookings: true },
     });
 
     if (!event) {
